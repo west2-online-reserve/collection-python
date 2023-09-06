@@ -1,142 +1,122 @@
-# Golang 第一轮考核
+# 1-基础语法
 
-## 目的
+- 配环境
+- 推荐教程
+- 初学者作业
+- 有基础者作业
+- 作业要求
+- 有想学人工智能学习的同学注意
+- 预习下⼀轮
+- 考核截止日期
+- 提交方式
 
-Go语言基本语法
+## 配环境
 
-- 条件，选择
-- 循环
-- 键值对
-- 切片，集合
-- 函数
-- 通道 Channel
-- Go协程 Goroutine
+下载pycharm [PyCharm：JetBrains为专业开发者提供的Python IDE](https://www.jetbrains.com.cn/pycharm/)
 
-## 任务
+一开始学下载社区版
 
-## Task1.基础语法
-请使用golang完成下列任务
+想要用专业版可以申请学生免费许可证
 
-1. 洛谷P1001：https://www.luogu.com.cn/problem/P1001
-2. 洛谷P1046：https://www.luogu.com.cn/problem/P1046
-3. 洛谷P5737：https://www.luogu.com.cn/problem/P5737
-4. AtCoder ARC017A：https://www.luogu.com.cn/problem/AT_arc017_1
-   - 对于这道题，请编写一个判断质数的函数`isPrime(x int) bool` ，并且在主函数中调用它
+想搞人工智能的电脑最好有好点的显卡，实在没有只能搞gpu云服务了
 
-5. 创建一个**切片(slice)** 使其元素为数字`1-50`，从切⽚删掉数字为`3`的倍数的数，并且在末尾再增加⼀个数`114514`，输出切⽚。
+想搞人工智能的去装个anaconda
 
-**输出示例**
+## 推荐教程
 
-```go
-[1 2 4 5 7 8 10 11 13 14 16 17 19 20 22 23 25 26 28 29 31 32 34 35 37 38 40 41 43 44 46 47 49 50 666]
-```
+1. Crossin编程教室 [Python 入门指南 (python666.cn)](https://python666.cn/cls/lesson/list/)
 
-### Bonus
+2. Python - 100天从新手到大师的前10节课 [jackfrued/Python-100-Days: Python - 100天从新手到大师 (github.com)](https://github.com/jackfrued/Python-100-Days)
 
-1. 写一个99乘法表，并且把结果保存到同⽬录下ninenine.txt，⽂件保存命名为"6.go"。
+3. Python官方文档 [3.10.7 Documentation (python.org)](https://docs.python.org/zh-cn/3/)
 
-2. 回答问题：Go语言中的切片和数组的区别有哪些？答案越详细越好。Go中创建切片有几种方式？创建map
-   呢？
+4. 菜鸟教程 [Python3 教程 | 菜鸟教程 (runoob.com)](https://www.runoob.com/python3/python3-tutorial.html)
 
-3. 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那
-   两个 整数，并返回它们的数组下标。
+5. 廖雪峰的官⽅教程 [Python教程 - 廖雪峰的官方网站 (liaoxuefeng.com)](https://www.liaoxuefeng.com/wiki/1016959663602400)
 
-   你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+6. b站能学的视频太多了，但是大部分时间太长，难以坚持看下去，可以先对着上面的教程看，有看不懂的再去找对应的视频
 
-   你可以按任意顺序返回答案。
-
-   **示例 1：**
-
-   > 输入：nums = [2,7,11,15], target = 9
-   > 输出：[0,1]
-   > 解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 
-
-   **示例2**
-
-   > 输入：nums = [3,2,4], target = 6
-   > 输出：[1,2]
-
-* 是否有复杂度`O(n)`的算法？
-
-3. 运行下面代码，在你认为重要的地方写好注释，同时回答下面这些问题
-   - 这个代码实现了什么功能？
-   - 这个代码利用了golang的什么特性？
-   - 这个代码相较于普通写法，是否有性能上的提升？（性能提升：求解速度更快了）
+7. 关于Python的学习路线和一些常见问题 [code-roadmap/Python学习路线.md at main · liyupi/code-roadmap (github.com)](https://github.com/liyupi/code-roadmap/blob/main/docs/roadmap/Python学习路线.md)
 
 
-```go
-package main
+## 初学者作业
 
-import (
-	"fmt"
-)
+1. 输入三个整数x,y,z，请尝试用多种方式把这三个数由大到小输出
+2. 输出九九乘法表
+3. 输入⼀个字符串，判断字符串中是否含有"ol"这个⼦串，若有把所有的"ol"替换为"fzu"，最后把字符串倒序输出
+4. 输入⼀个列表（list），列表中含有字符串和整数，删除其中的字符串元素，然后把剩下的整数升序排序，输出列表
+5. 创建一个字典（dict），为字典添加几个键为学号，值为姓名元素，删除学号尾号为偶数的元素，输出字典
+6. 创建一个函数，这个函数可以统计一个只有数字的列表中所有数字的个数，通过字典方式返回
+7. 设计⼀个商品类，它具有的私有数据成员是商品序号、商品名、单价、总数量和剩余数量。具有的 公有成员函数是：初始化商品信息的构造函数__init__，显示商品信息的函数display，计算已售出 商品价值income，修改商品信息的函数setdata
+8. （可选）尝试用所学的知识写一个斗地主随机发牌程序，将每个人的发牌以及多的三张牌的结果分别输出到player1.txt，player2.txt，player3.txt，others.txt四个文件中，可以不要求牌的花色
 
-func generate(ch chan int) {
-	for i := 2; ; i++ {
-		ch <- i
-	}
-}
+## 有基础者作业
 
-func filter(in chan int, out chan int, prime int) {
-	for {
-		num := <-in
-		if num%prime != 0 {
-			out <- num
-		}
-	}
-}
+1. 实现一个装饰器，在开始执行函数时输出该函数名称， 并在结束时输出函数的开始时间和结束时间以及运行时间
 
-func main() {
-	ch := make(chan int)
-	go generate(ch)
-	for i := 0; i < 6; i++ {
-		prime := <-ch 
-		fmt.Printf("prime:%d\n", prime)
-		out := make(chan int)
-		go filter(ch, out, prime)
-		ch = out
-	}
-}
-```
+2. 用所学的知识写一个斗地主随机发牌程序，将每个人的发牌以及多的三张牌的结果分别按照从大到小的顺序输出到player1.txt，player2.txt，player3.txt，others.txt四个文件中
 
-## Task2. Git与Github
+3. 写一个列表推导式，生成一个5*10的矩阵，矩阵内的所有值为1，再写一个列表推导式，把这个矩阵转置
 
-现在我们来讨论一下Git和Github, 这是一个计算机学生绕不开的话题.不论你计划是升学还是就业,掌握Git和Github对你的帮助都是莫大的.
+4. 了解类的魔术方法(Magic Method)。创建类MyZoo，实现以下功能：
 
-目前西二在线编写了如下的文档: [Git与Github的超容易入门](https://west2-online.feishu.cn/wiki/Lsz9w3CiGinXzgkevtmceHZknrf),这个文档简单的介绍了如何使用git和github,但是更多的功能仍然需要你自己去探索,同时,这个文档并没有编写完毕
+    - 具有字典anmials，动物名称作为key，动物数量作为value
 
-我们希望可以通过这个文档让你快速上手git, 但光看文档肯定是没有用的,你还需要完成下列任务
+    - 实例化对象的时候，输出"My Zoo!" 
 
-- 如果你没有自己的Github账号,请创建一个自己的Github账号
-- 为你的Github账号添加一个头像
-- 为你的Github账号开启2FA(多因素账号登录)
-- 为你的Github账号写一个README(请去网上查阅如何美化自己的Github主页)
-- 访问这个仓库[[Github-Introduction](https://github.com/west2-online-reserve/Github-Introduction)],在这个仓库中添加一个新的issue,模板选择[Bug Report],按照模板内的要求填写内容(关于bug的复原部分可以随便写,比如click xxx),发布这个issue
-- fork上面这个仓库,在fork的仓库中新增一个READDME.md文件,在这个文件中填写你的Github ID
-- 将上一步的修改提交到你fork的仓库,并且给主仓库提交一个关于这个修改的pr
+    - 创建对象的时候可以输入字典进行初始化,若无字典传入，则初始化anmials为空字典
 
-**注意:fork仓库并添加文件这个步骤,请在你的电脑本地操作,之后push到你fork的仓库.不要试图直接在Github上面操作,是可以区分出在Github上面操作和本地操作后push的**
+        ```python
+        myzoooo = MyZoo({"pig":5,'dog':6}) 
+        myzoooo = MyZoo() 
+        ```
 
-### Bonus
+        
 
-1. 请注意你的commit message,你可以自行查找一些git commit规范,我们希望你可以先建立起一定的规范操作
-2. 请创建一个仓库,这个仓库存放着你本次考核的代码.仓库名和其他内容不做要求,但是我们希望你的一切操作都看起来是**具有一定规范**的
+    -  print(myzoooo) 输出 动物名称和数量
 
-在未来的工程项目中,规范是非常重要但很难掌握的一个内容,你未来势必不会单打独斗,你会和其他不同的人一起创造、修缮你们的伟大工程.同时,一个工程可能会持续很长时间,可能最初的人因为各种原因被新来的人接替,这时候规范问题更重要了:你该如何使用一定的规范,让新来的人可以很快的上手你们的伟大工程?这是一个值得思考的问题!
+    - 比较两个对象是否相等时，只要动物种类一样，就判断相等： 
 
-请务必注意你的规范问题.以及,请务必学好git和github.
+        ```python
+        输入：
+        myzoooo1 = MyZoo({'pig':1})
+        myzoooo2 = MyZoo({'pig':5})
+        print(myzoooo1 == myzoooo2)
+        输出:
+        My Zoo!
+        My Zoo!
+        True
+        ```
 
-## 要求
+        
 
-1.  不要抄袭 
-2.  不要抄袭
-3.  不要抄袭
-4.  遇到不会的地⽅时，⾸先尝试⾃⼰去解决，可以去百度、⾕歌上寻求帮助，能⽤`搜索引擎`解决**⾃⼰**的问题是⼀项⾮常⾮常重要的能⼒。
+    - len(myzoooo) 输出所有动物总数
 
-## 参考
+5. （可选）写一个正则表达式，用于验证用户密码，长度在6~18 之间，只能包含英文和数字
 
-- 菜鸟教程Go语言 https://www.runoob.com/go/go-tutorial.html
-- B站老男孩Go语言入门视频 https://www.bilibili.com/video/BV1fz4y1m7Pm
-- 七天入门Go语言 https://blog.csdn.net/weixin_45304503/category_11253946.html
-- go语言中文社区 https://learnku.com/go
+## 作业要求
 
+1. 不要抄袭哦
+2. 遇到不会的时候先自己去网上找资料，实在找不到在来问，用搜索引擎解决问题的能力非常重要
+3. 例如输入输出的格式可以自己决定，但是要符合题目要求
+4. 有基础者的只需要做有基础者作业即可
+
+## 有想学人工智能学习的同学注意
+
+我们会在第二轮考核结束后进行一次面试，进行人工智能方向和后端方向的分流。
+
+对人工智能感兴趣的同学可以提前做好以下准备：
+
+1. 机器学习理论知识：推荐教程：吴恩达机器学习https://study.163.com/course/introduction/1210076550.htm（当然 其他教程也可）打好基础很重要。
+2. Python的numpy和pandas库的使用：便于数据处理，数据处理也很重要捏。
+
+## 预习下⼀轮
+
+1. 爬虫是什么？
+2. 了解正则表达式
+3. 了解requests，selenium等库，有能力的可以尝试学习scrapy框架
+4. 了解lxml或者BeautifulSoup
+5. 了解mysql数据库的使用方法
+6. 注册GitHub账号，学习git的使用
+7. 了解基础的网页架构（html+css）
+8. 爬虫教程 https://cuiqingcai.com/5052.html +b站视频也很多
