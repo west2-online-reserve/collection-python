@@ -8,7 +8,7 @@ from ..items import NoticeItem
 from ..SQL   import SQL
 
 got = 0
-want  = 3
+want  = 100
 
 is_create_information = False
 
@@ -50,17 +50,20 @@ class NoticeSpider(scrapy.Spider):
                 time.strftime("%Y/%m/%d %H:%M:%S", time.localtime()),
                 response.xpath('//span[@class="p_no"]')[-1].xpath('./a/text()').get()
             ])
+            is_create_information = True
         del db
 
         notice_list = response.xpath('//ul[@class="list-gl"]/li')
         for span in notice_list:
             got += 1
-            self.log(f"loading url === {response.follow(span.xpath('./a').extract_first())}")
+            self.log(f"loading url === {span.xpath('./a/@href').get()}")
             if( got>want ):
+                self.log("end loading url ===")
                 break
             yield response.follow(span.xpath('./a')[0], callback=self.parse_notice)
         else:
             next = response.xpath("//span[@class='p_next p_fun']/a")[0]
+            self.log(f'loading next menu === {next.get()}')
             yield response.follow(next, callback=self.parse_list)
 
 
