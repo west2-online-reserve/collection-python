@@ -1,6 +1,6 @@
 class Myzoo():
     def __init__(self,animals = None):
-        if animals == None:
+        if animals is None:
             self.animals = {}
         else:
             self.animals = animals
@@ -12,12 +12,11 @@ class Myzoo():
     def __len__(self):
         return sum(self.animals.values())
 myzoooo=Myzoo({'pig':5,'dog':6})
-myzoooo
 print(myzoooo)
 myzoooo1 = Myzoo({'pig':1})
 myzoooo2 = Myzoo({'pig':5})
 print(myzoooo1 == myzoooo2)
-print(len(myzoooo1))
+print(len(myzoooo))
 
 
 
