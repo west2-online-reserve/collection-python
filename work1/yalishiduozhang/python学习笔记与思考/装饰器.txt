@@ -1,0 +1,163 @@
+1.装饰器
+一._name_属性
+def now():
+	print('2015')
+f=now
+now._name_
+>>>'now'
+f._name_
+>>>'now'
+二.制作装饰器
+现在，假设我们要加强now()函数的功能，比如，在函数调用前后自动打印日志，又不改变now（）函数的定义，即利用装饰器！
+本质上，decorator就是一个返回函数的高阶函数。
+eg.
+def log(func):
+	def wrapper(*args,**kw):#里面的参数非常重要！不然会报错！
+		print('call %s():'%func._name_)
+		return func(*args,**kw)
+	return wrapper
+		
+@log
+def now():
+	print(2023)
+now()
+>>>call now():
+>>>2023
+
+注：观察上面的log，因为它是一个decorator，所以接受一个函数为参数，并返回一个函数。而我们又借用Python的@语法，把decorator置于函数的定义处，因此，调用now()函数，不仅会运行now()函数本身，还会在运行now()函数前打印一行日志。
+把@log放到now()函数定义处，相当于执行了语句：
+now=log(now) !!!
+
+但是！如果decorator本身要传入参数呢？前面的传入通道已经被func堵塞了！
+还是老办法：再来一个函数！
+
+比如，要自定义log的文本：
+def log(text):
+	def decorator(func):
+		def wrapper(*args,**kw):
+			print('%s %s ()'%(text,func._name_))
+			return func(*args,**kw)
+			
+		return wrappper
+	return decorator
+
+如何使用?
+@log('execute')
+def now():
+	print('2023')
+now()
+>>>execute now():
+>>>2023
+
+注：和两层嵌套的decorator相比，3层嵌套的效果是这样的：
+now=log('execute')(now)
+
+我们来剖析上面的语句，首先执行log('execute')，返回的是decorator函数，再调用返回的函数，参数是now函数，返回值最终是wrapper函数。
+
+以上两种decorator的定义都没有问题，但还差最后一步。因为我们讲了函数也是对象，它有__name__等属性，但你去看经过decorator装饰之后的函数，它们的__name__已经从原来的'now'变成了'wrapper'：
+
+>>> now.__name__
+'wrapper'
+
+怎么办？！！！
+
+利用python内置的functools.wraps来干这种大事！！！
+
+import functools
+
+def log(text):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            print('%s %s():' % (text, func.__name__))
+            return func(*args, **kw)
+        return wrapper
+    return decorator
+注：在参数为func的下面声明 ！
+
+2.偏函数
+当函数的参数太多，需要简化时，使用functool.partial 可以创建一个新函数，这个新函数可以固定住原函数的部分参数，从而在调用时更简单。
+假设要转换大量的二进制字符串，每次都传入int(x, base=2)非常麻烦，于是，我们想到，可以定义一个int2()的函数，默认把base=2传进去：
+def int2(x,base=2):
+	return int(x,base)
+这样，就有了默认的base，转换二进制时可以不填！
+>>> int2('1000000')
+64
+>>> int2('1010101')
+85
+
+而且！
+functools.partial 就是帮我们创建一个偏函数的，可以用下面代码创建一个新函数 int2:
+
+import functools
+int2 = functools.partial(int,base=2)
+int2('1000000')
+>>>64
+int2('1010101')
+>>>85
+
+所以，简单总结functools.partial的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单。
+
+对于上面的偏函数，调用时也可以更改base
+int2（‘1000000’，base=10）
+>>>1000000
+最后，创建偏函数时，实际上可以接收函数对象、*args和**kw这3个参数，当传入：
+
+int2 = functools.partial(int, base=2)
+实际上固定了int()函数的关键字参数base，也就是：
+
+int2('10010')
+相当于：
+
+kw = { 'base': 2 }
+int('10010', **kw)
+
+当传入：
+
+max2 = functools.partial(max, 10)
+实际上会把10作为*args的一部分自动加到左边，也就是：
+
+max2(5, 6, 7)
+相当于：
+
+args = (10, 5, 6, 7)
+max(*args)
+结果为10。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
