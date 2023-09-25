@@ -1,0 +1,195 @@
+1.tuple
+本身不可变，但是我们可以在里面放入列表，我列表变变变，你指的仍然是我，可以！
+（这里利用了列表的特殊性）
+若只有一个元素 加逗号
+eg. (1,)
+2.dict
+如何查找？
+一.利用键查找值
+二.利用get()方法
+eg.
+d.get("Thomas")
+d.get("Thomas",-1)
+解释：若不存在，返回-1
+3.
+一.创建
+s1=set([1,2,5])
+>>>{1,2,5}
+s2=set([1,1,33,33,3,4])
+>>>{1,33,3,4}
+解释：set作为集合，可以过滤重复元素
+二.添加
+s2.add(5)
+>>>{1,33,3,4,5}
+三.删除
+s2.remove(4)
+>>>{1,33,3,5}
+四.交集与补集
+s1&s2
+>>>{1}
+s1|s2
+>>>{1,2,5,33,3}
+
+
+
+四.不可变对象
+a="hjsdhh"
+a.replace("j","s")
+>>>"hssdhh"
+a
+>>>"hjsdhh"
+虽然字符串有个replace()方法，也确实变出了'Abc'，但变量a最后仍是'abc' !
+可以创建另外一个元素b
+b=a.replace("j","s")
+>>>"hssdhh"
+
+五.函数的参数
+1.默认参数
+eg.
+def power(x,n=2):
+	s=1
+	while n>0:
+		n-=1
+		s*=x
+	return s
+power(5)
+>>>25
+power(5,2)
+>>25
+power(5,3)
+>>>125
+注：不一样不用默认，无参数输入用默认！
+
+但是，不要把可变变量用作默认参数！
+这会导致默认参数变化！
+
+2.可变参数（传入的参数是可变的！）
+A.那就需要list tuple ！ 调用时组装一个list或tuple
+eg.
+def calc(numbers):
+	sum=0
+	for n in numbers:
+		sum+=n
+	return sum
+calc([1,2,5]) #list
+>>>8
+calc([1,3,5,7]) #tuple
+>>>84
+
+B.把函数参数改为可变参数
+eg.
+def calc(*numbers):
+	sum=0
+	for n in numbers:
+		sum+=n*n
+	return sum
+cal(1,2)
+>>>5
+
+calc()
+>>>0
+若numbers为数组，前面加*也相当于把其拆为数字！
+nums=[1,2,3]
+calc(*nums)
+>>>14
+
+3.关键字参数
+#可变参数允许你传入0个或任意个参数，这些可变参数在函数调用时自动组装为一个tuple。
+而关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict。
+eg.
+def person(name,age,**kw):
+	print("name:",name,"age:",age,"other:",kw)
+注：kw为关键字参数，可填可不填
+person("HSHGJJ"，30)
+>>>name:HSHGJJ age:30 other:{}
+注：也可传入任意个数关键字参数
+person("yalishiduozhang"，17，city="浙江"，job="学生")
+>>>name:yalishiduozhang age:17 other:{city:”浙江“，job:"学生"}
+或：
+extra={city："浙江"，job="student"}
+person("yalishiduozhang",17,extra)
+>>>name:yalishiduozhang age:17 other:{city:"浙江"，job："student"}
+
+注：
+**extra表示把extra这个dict的所有key-value用关键字参数传入到函数的**kw参数，kw将获得一个dict，注意kw获得的dict是extra的一份拷贝，对kw的改动不会影响到函数外的extra。
+
+4.命名关键字参数
+如果要限制关键字参数的名字，就可以用命名关键字参数，例如，只接收city和job作为关键字参数。这种方式定义的函数如下：
+
+def person(name,age,*,city,job):
+	print(name,age,city,job)
+和关键字参数**kw不同，命名关键字参数需要一个特殊分隔符*，*后面的参数被视为命名关键字参数。
+但是：
+如果函数定义中已又一个可变参数，后面参数便不再需要* ！
+eg.
+def person(name,age,*args,city,job):
+	print(name,age,,args,city,job)
+但是：
+错误传入方式--->>> person("yalishiduozhang",17,"浙江"，“student”)
+由于调用时缺少参数名city和job，Python解释器把前两个参数视为位置参数，后两个参数传给*args，但缺少命名关键字参数导致报错。
+命名关键字参数可以有缺省词：
+eg.
+def person(name,age,*,city="浙江"，job):
+	print(name,age,city,job)
+person("yalishiduozhang",17,"student")
+>>>yalishiduozhang 17 浙江 student
+
+6.参数组合
+在Python中定义函数，可以用必选参数、默认参数、可变参数、关键字参数和命名关键字参数，这5种参数都可以组合使用。但是请注意，参数定义的顺序必须是：必选参数、默认参数、可变参数、命名关键字参数和关键字参数。
+
+def f1(a, b, c=0, *args, **kw):
+    print('a =', a, 'b =', b, 'c =', c, 'args =', args, 'kw =', kw)
+
+def f2(a, b, c=0, *, d, **kw):
+    print('a =', a, 'b =', b, 'c =', c, 'd =', d, 'kw =', kw)	
+>>> f1(1, 2)
+a = 1 b = 2 c = 0 args = () kw = {}
+>>> f1(1, 2, c=3)
+a = 1 b = 2 c = 3 args = () kw = {}
+>>> f1(1, 2, 3, 'a', 'b')
+a = 1 b = 2 c = 3 args = ('a', 'b') kw = {}
+>>> f1(1, 2, 3, 'a', 'b', x=99)
+a = 1 b = 2 c = 3 args = ('a', 'b') kw = {'x': 99}
+>>> f2(1, 2, d=99, ext=None)
+a = 1 b = 2 c = 0 d = 99 kw = {'ext': None}
+
+
+通过一个tuple何dict，也可调用！
+>>> args = (1, 2, 3, 4)
+>>> kw = {'d': 99, 'x': '#'}
+>>> f1(*args, **kw)
+a = 1 b = 2 c = 3 args = (4,) kw = {'d': 99, 'x': '#'}
+>>> args = (1, 2, 3)
+>>> kw = {'d': 88, 'x': '#'}
+>>> f2(*args, **kw)
+a = 1 b = 2 c = 3 d = 88 kw = {'x': '#'}
+所以，对于任意函数，都可以通过类似func(*args, **kw)的形式调用它，无论它的参数是如何定义的
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+1.
+对于很大的数，例如10000000000，很难数清楚0的个数。Python允许在数字中间以_分隔，因此，写成10_000_000_000和10000000000是完全一样的。十六进制数也可以写成0xa1b2_c3d4
+2.
+字符串和编码：
+计算机内存：Unicode ； 传输或保存到硬盘：UTF-8
+网页中：<meta charset="UTF-8"/>表示网页用的是UTF-8编码
+3.
+将str转变为bytes：
+“ABC”.encode("ascii")
+>>>b"ABC"
+"中文".encode("utf-8")
+>>>b'\xe4\xb8\xad\xe6\x96\x87'
+将bytes转变为str:
+b'ABC'.decode("ascii")
+>>>'ABC'
+b'\xe4\xb8\xad\xff'.decode('utf-8',errors='ignore')
+>>>'中'
+4.
+python中为了使其按UTF-8读取，开头写两行：
+#!/usr/bin/env python3
+#-*- coding:utf-8 -*-
+第一行注释是为了告诉Linux/OS X系统，这是一个Python可执行程序，Windows系统会忽略这个注释；
+
+第二行注释是为了告诉Python解释器，按照UTF-8编码读取源代码，否则，你在源代码中写的中文输出可能会有乱码。
+5.输出格式化字符串
+一.利用占位符
+采用格式化方式与c语言类似，用%实现
+"Hello,%s"%"world"
+>>>"Hello,world"
+"Hi,%s,you have $%d."%("Michael",1000000)
+>>>"Hi,Michael,you have $1000000"
+
+占位符	替换内容
+%d	整数
+%f	浮点数
+%s	字符串
+%x	十六进制整数
+
+如果不确定用什么，%s永远起作用！
+
+print("%2d-%02d"%(3,1))
+>>>3-01
+print("%.2f"%3.145926)
+>>>3.14
+解释：%2d 表示占用两个字节位置
+%02d表示占用两个字节位置，不够的用零补
+%.2f表示取两位小数
+
+二.利用format()方法
+“Hello,{0},成绩提升了{1:.1f}%.format("小明"，17.125)”
+>>>"Hello,小明,成绩提升了17.1%"
+三.利用f-string方法
+r=2.5
+s=3.14*r**2
+print(f'The area of a circle with radius {r} is {s:.2f}')
+>>>The area of a circle with radius 2.5 is 19.62
+
+
+
+
+

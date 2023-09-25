@@ -1,0 +1,79 @@
+1.filter 基础
+filter 为过滤序列
+和map()类似，filter()也接收一个函数和一个序列。和map()不同的是，filter()把传入的函数依次作用于每个元素，然后根据返回值是True还是False决定保留还是丢弃该元素。
+注：True保留数字，False删除数字！
+
+eg.删掉偶数，保留奇数
+def jishu(n):
+	return n%2==1 
+list(filter(jishu,[1,2,3,4,5,6,7]))  lambda形式:list(filter(lambda n : n % 2 == 1)
+>>>[1,3,5,7]
+
+eg.把一个序列中空字符串删掉
+def not_empty(s)
+	return s and s.strip()
+list(filter(not_empty,['A', '', 'B', None, 'C', '  ']))
+>>>['A','B','C']
+注意到filter()函数返回的是一个Iterator，也就是一个惰性序列，所以要强迫filter()完成计算结果，需要用list()函数获得所有结果并返回list。
+2.filter应用
+#用filter求素数
+第一步：构造从3开始的奇数数列
+def odd-iter():
+	n=1
+	while True:
+		n+=2
+		yield 
+注意这是一个生成器，并且是一个无限序列。
+第二步:定义一个筛选函数(filter专用)
+def divide(n):
+	return lambda x : x % n >0
+第三步：定义一个生成器，不断返回下一个素数
+def primes():
+	yield 2
+	it = odd-iter()#初始序列生成奇数序列
+	while True:
+		n=next(it)
+		yield n
+		it=filter(divide(n),it)#去除n的所有倍数
+第四步：打印
+for n in primes():
+	if n < 1000:
+		print(n)
+	else:
+		break
+
+
+2.sorted()
+主要关注key的用法 ！
+注：先把数组里的数按照key的要求处理后再进行排序！
+eg.
+sorted(['bob','Zoo','Credict'],key=str.lower)
+>>>['about','bob','Credict','Zoo']
+
+要进行反向排序，不必改动key函数，可以传入第三个参数reverse=True：
+eg.
+sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True)
+['Zoo', 'Credit', 'bob', 'about']
+3.应用
+假设我们用一组tuple表示学生名字和成绩：
+
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+#请用sorted()对上述列表分别按名字排序：
+
+# -*- coding: utf-8 -*-
+
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+def by_name(t):
+	return t[0]
+L1=sorted(L,key=by_name)
+print(L1)
+
+
+
+
+
+
+
+
+
+
