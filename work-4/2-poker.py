@@ -1,18 +1,3 @@
-# p1
-def encslat(temp):#封装
-    import time
-    def els():
-     begin = time.perf_counter()
-     temp()
-     end = time.perf_counter()
-     print(begin)
-     print(end)
-     print(end-begin)
-    return els
-@encslat
-def func():
-    pass
-# p2
 p={"3":4,"4":4,"5":4,"6":4,"7":4,"8":4,"9":4,"A10":4,"J":4,"Q":4,"_K":4,"c1":4,"c2":4,"joker1-small":1,"joker2-big":1}
 pl=[]
 for i in p:

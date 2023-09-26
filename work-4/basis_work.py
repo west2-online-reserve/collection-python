@@ -9,7 +9,7 @@ def p1():
     if b>c:
         b,c=c,b
     print(a, b, c)
-p1()
+# p1()
     
 def p2():
     for i in range(1,10):
@@ -42,8 +42,12 @@ def p5():
             dict2[i]=dict1[i]
     print(dict2)
 def p6(list):
-    a=len(list)
-    return {"该列表数字个数为：":a}
+    set ={}
+    for i in range(len(list)):
+        if list[i] not in set:
+            set[list[i]]=1
+        else: set[list[i]]+=1
+    return set
 class Goods:
     def __init__(self) -> None:
         pass
@@ -58,19 +62,14 @@ class Goods:
         print("单价:\t",self.__Unit_price)
         print("总量:\t",self.__Amount)
         print("剩余量:\t",self.__Leave)
-        a=input("查询售出总价请按1")
-        if a=="1":
-            self.income()
     def income(self):
         t=(self.__Amount-self.__Leave)*self.__Unit_price
-        print("售出的商品总价为:",t)
-    def setdata(self):
-        print("修改请按1")
-        c=input()
-        if c=="1":
-            a1=input("修改编号为")
-        # 其他同理
-            self.__Number=a1
-
+        print(f"售出的商品总价为:{t}")
+    def setdata(self,name,number,unit_price,amount,leave):
+        self.__Name=name
+        self.__Number=number
+        self.__Unit_price=unit_price
+        self.__Amount=amount
+        self.__Leave=leave
 
 
