@@ -20,3 +20,4 @@ class MyZoo:
         for i in self.animals.values():
             num += i
         return num
+

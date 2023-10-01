@@ -25,3 +25,4 @@ for i in range(4):
     with open(f'{lis3[i]}.txt', 'w', encoding='utf-8') as t:
         for j in new_poke[i]:
             t.write(str(j[0]) + '\n')
+

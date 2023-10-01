@@ -6,3 +6,4 @@ if re.match(string, password):
     print('Success')
 else:
     print('Fail')
+
