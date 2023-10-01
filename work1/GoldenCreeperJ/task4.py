@@ -4,7 +4,7 @@ class MyZoo:
         print('My Zoo!')
 
     def __repr__(self):
-        str1 = ''
+        str1 = '\n'
         for i, j in self.animals.items():
             str1 += f'{i}:{j}\n'
         return str1
