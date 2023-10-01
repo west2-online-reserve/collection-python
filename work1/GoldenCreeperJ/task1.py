@@ -10,4 +10,3 @@ def decorator(func):
         print(f' begin:{begin},\n end:{end},\n during:{end - begin}')
 
     return inner
-
