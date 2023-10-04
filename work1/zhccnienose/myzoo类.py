@@ -1,9 +1,18 @@
 import sys
 class MyZoo(object):
-    def __init__(self,dic):
-        self.animal = dic
-        self.sum = 0
+    def __init__(self,animals=None):
+        self.animal = animals
         print("My Zoo!")
+    
+    def __str__(self):
+        s = ""
+        for item in self.animal.items():
+            s += str(item[0]) + " : " + str(item[1]) + "\n"
+        return s
+    
+    #输出所有动物总数
+    def __len__(self):
+        return sum(self.animal.values())
         
     def __eq__(self,other):    
         a1 = self.animal.keys()
@@ -13,31 +22,12 @@ class MyZoo(object):
             return True
         else:
             return False
-
-def print(a):
-    if(isinstance(a,MyZoo)):
-        for item in a.animal:
-            sys.stdout.write(str(item.key()))
-            sys.stdout.write(" : ")
-            sys.stdout.write(str(item.value()))
-            sys.stdout.write("\n")
-    else:
-        sys.stdout.write(str(a))
-        sys.stdout.write("\n")
-
-#输出所有动物总数
-def len(self):
-    self.sum = 0
-    a_val = self.animal.values()
-    for i in a_val:
-        self.sum += i
-    print(self.sum)
         
 m1 = MyZoo({'pig':5,'sheep':10,'dog':3})
 m2 = MyZoo({'pig':10,'sheep':10,'dog':3})
 m3 = MyZoo({'dog':1})   
 
-len(m1)
-#print(m1)
+print(len(m1))
+print(m1)
 print(m1 == m2)
 print(m2 == m3)
