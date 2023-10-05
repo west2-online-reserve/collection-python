@@ -1,5 +1,4 @@
-import numpy as np
-
-matrix = [[y for y in [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]] for x in [1, 1, 1, 1, 1]]
+matrix = [[i for i in [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]] for i in [1, 1, 1, 1, 1]]
 print("转置前：",matrix)
-print("转置后：\n",np.transpose(matrix))
+new_matrix = [[row[i] for row in matrix] for i in range(5)]
+print("转置后：",new_matrix)
