@@ -1,5 +1,6 @@
 import time
 
+
 def count_time(func):
     def wrapper(*args, **kwargs):
         t1 = time.time()
