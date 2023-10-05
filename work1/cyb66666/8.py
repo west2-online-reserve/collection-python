@@ -10,9 +10,18 @@ others=[]
 card = []
 for i in range(1, 14):
     for x in range(4):
-        card.append(i)
-card.append(14)#大王
-card.append(15)#小王
+        if i==1:
+            card.append('A')
+        elif i==11:
+            card.append('J')
+        elif i==12:
+            card.append('Q')
+        elif i==13:
+            card.append('K')
+        else:
+            card.append(i)
+card.append('JOKER')
+card.append('joker')
 for i in range(10):
     random.shuffle(card)
 i=0
@@ -24,59 +33,6 @@ while i<51:
 others.append(card[51])
 others.append(card[52])
 others.append(card[53])
-player1.sort()
-player2.sort()
-player3.sort()#理牌
-for i in range(17):
-    if player1[i] == 1:
-        player1[i] = "A"
-    elif player1[i] == 11:
-        player1[i] = "J"
-    elif player1[i] == 12:
-        player1[i] = "Q"
-    elif player1[i] == 13:
-        player1[i] = "K"
-    elif player1[i] == 14:
-        player1[i] = "JOKER"
-    elif player1[i] == 15:
-        player1[i] = "joker"
-    if player2[i] == 1:
-        player2[i] = "A"
-    elif player2[i] == 11:
-        player2[i] = "J"
-    elif player2[i] == 12:
-        player2[i] = "Q"
-    elif player2[i] == 13:
-        player2[i] = "K"
-    elif player2[i] == 14:
-        player2[i] = "JOKER"
-    elif player2[i] == 15:
-        player2[i] = "joker"
-    if player3[i] == 1:
-        player3[i] = "A"
-    elif player3[i] == 11:
-        player3[i] = "J"
-    elif player3[i] == 12:
-        player3[i] = "Q"
-    elif player3[i] == 13:
-        player3[i] = "K"
-    elif player3[i] == 14:
-        player3[i] = "JOKER"
-    elif player3[i] == 15:
-        player3[i] = "joker"
-for i in range(3):
-    if others[i] == 1:
-        others[i] = "A"
-    elif others[i] == 11:
-        others[i] = "J"
-    elif others[i] == 12:
-        others[i] = "Q"
-    elif others[i] == 13:
-        others[i] = "K"
-    elif others[i] == 14:
-        others[i] = "JOKER"
-    elif others[i] == 15:
-        others[i] = "joker"
 p1=open("player1.txt","w")
 p1.writelines(str(player1))
 p2=open("player2.txt","w")
