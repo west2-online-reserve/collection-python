@@ -1,10 +1,11 @@
-def Countnum(L):
-    number = len(L)
-    di = {'这个列表中数字的个数':number}
-    return (di)
+def CountNum(l1):
+    result1 = []
+    result = {}
+    for i in l1:
+        if i not in result1:
+            result[i] = l1.count(i)
+    return(result)
+
 
 yourlist = eval(input('输入一个只有数字的列表'))
-print(Countnum(yourlist))
-
-
-
+print(CountNum(yourlist))
