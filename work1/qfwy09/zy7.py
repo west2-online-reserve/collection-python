@@ -7,7 +7,11 @@ class Commodity:
         self.number = commodity_number
 
     def display(self):
-        print(f"信息{self.id,self.name,self.price,self.total_number,self.number}")
+        print(f"商品序号: {self.id}")
+        print(f"商品名: {self.name}")
+        print(f"单价: {self.price} 元")
+        print(f"总数量: {self.total_number}")
+        print(f"剩余数量: {self.number}")
 
     def income(self):
         income = self.price * (self.total_number - self.number)
@@ -19,3 +23,4 @@ class Commodity:
         self.price = price
         self.total_number = total_number
         self.number = number
+
