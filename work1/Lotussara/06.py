@@ -1,8 +1,9 @@
-a=eval(input())
-def func():
-    b=len(a)
-    print('列表中的数字个数为%d'%b)
-    return {'列表中的数字个数':'b'}
-pass
-c=func()
-print(type(c))
+listA=[123,122,133,2266,236,122,111]
+def func(listA):
+    count={}
+    for i in listA:
+        count[i]=0
+    for i in listA:
+        count[i]+=1
+    return count
+print(func(listA))
