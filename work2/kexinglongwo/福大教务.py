@@ -38,21 +38,8 @@ def extract_parameters(string):
     else:
         return None
 def handle(i):
-    i=i.replace('《','')
-    i = i.replace('》', '')
-    i=i.replace("/", "")
-    i = i.replace(":", "")
-    i = i.replace("?", "")
-    i = i.replace('"', "")
-    i = i.replace("。", "")
-    i = i.replace("\\", "")
-    i = i.replace("，", "")
-    i = i.replace("*", "")
-    i = i.replace("：", "")
-    i = i.replace("（", "")
-    i = i.replace("）", "")
-    i = i.replace("【", "")
-    i = i.replace("】", "")
+    pattern = r'[《》/:?"。\\，*：（）【】]'
+    i = re.sub(pattern, '', i)
     return i
 def find(disc:list):                                                        #----找到通知人、标题、日期、详情链接
     b=[]
