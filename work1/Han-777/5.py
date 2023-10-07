@@ -3,7 +3,7 @@ import re
 
 
 def check_password(pwd):
-    res = re.search(r'([\d\w]+){6,18}', pwd)
+    res = re.search(r"^[a-zA-Z0-9]{6,18}$", pwd)
     return True if res else False
 
 
