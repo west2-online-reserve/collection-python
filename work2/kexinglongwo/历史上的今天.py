@@ -12,21 +12,8 @@ url='https://www.lssjt.com/'
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69"}
 def handle(i):
-    i=i.replace('《','')
-    i = i.replace('》', '')
-    i=i.replace("/", "")
-    i = i.replace(":", "")
-    i = i.replace("?", "")
-    i = i.replace('"', "")
-    i = i.replace("。", "")
-    i = i.replace("\\", "")
-    i = i.replace("，", "")
-    i = i.replace("*", "")
-    i = i.replace("：", "")
-    i = i.replace("（", "")
-    i = i.replace("）", "")
-    i = i.replace("【", "")
-    i = i.replace("】", "")
+    pattern = r'[《》/:?"。\\，*：（）【】]'
+    i = re.sub(pattern, '', i)
     return i
 def response():
     global day
