@@ -1,0 +1,70 @@
+1.列表生成式
+eg.
+[x*x for x in range(1,11)]
+>>>[1,2,9,16,25,36,49,64,81,100]
+
+[x*x for x in range(1,11) if x%2==0]
+>>>[4,16,36,64,100]
+
+[m+n for m in "ABC" for n in "XYZ"]
+>>>['AX', 'AY', 'AZ', 'BX', 'BY', 'BZ', 'CX', 'CY', 'CZ']
+
+d={'x':'A','y':'B','z':'C'}
+[k+"="+v for k,v in d.items() ]
+>>>['y=B', 'x=A', 'z=C']
+
+ L = ['Hello', 'World', 'IBM', 'Apple']
+ [s.lower() for s in L]
+>>>['hello', 'world', 'ibm', 'apple']
+
+注：if ...else 用法
+[x if x%2==0 else -x for x in range(1,11)]
+>>>[-1, 2, -3, 4, -5, 6, -7, 8, -9, 10]
+
+注:使用内建的isinstance函数可以判断一个变量是不是字符串：
+
+x="123"
+y=123
+isinstance(x,str)
+>>>True
+
+isinstance(y,str)
+>>>False
+
+#创建函数：1.利用函数 2.直接键值对指示创建；
+# 遍历字典：
+# 在Python中，你可以使用循环来遍历字典中的键值对（key-value pairs）。常见的遍历方式有三种：使用 for 循环遍历字典的键、使用 for 循环遍历字典的值，以及使用 for 循环遍历字典的键值对。下面我将分别展示这三种遍历字典的方法。
+# 假设有如下字典作为示例：
+# person_info = {
+#     "name": "John",
+#     "age": 30,
+#     "city": "New York"
+# }
+# 使用 for 循环遍历字典的键：
+# for key in person_info:
+#     print(key)
+# 使用 for 循环遍历字典的值：
+# for value in person_info.values():
+#     print(value)
+# 使用 for 循环遍历字典的键值对：
+# for key, value in person_info.items():
+#     print(key, value)
+# 在上述示例中，for key in person_info 循环会依次将字典 person_info 中的每个键赋值给变量 key，然后执行循环体内的代码块。for value in person_info.values() 循环会遍历字典中的所有值，而 for key, value in person_info.items() 循环会遍历字典中的每个键值对。
+# 在遍历字典时，你可以在循环体内执行任意操作，比如打印键或值、对键值对进行处理等。这些遍历方法适用于所有的字典，无论字典的大小和内容。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
