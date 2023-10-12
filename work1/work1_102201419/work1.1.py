@@ -1,5 +1,4 @@
 #输入三个整数x,y,z，请尝试用多种方式把这三个数由大到小输出
-
 num = []
 for i in range(3) :  #选择排序
     word = input()

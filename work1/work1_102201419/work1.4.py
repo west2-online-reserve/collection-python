@@ -1,5 +1,4 @@
 #输入⼀个列表（list），列表中含有字符串和整数，删除其中的字符串元素，然后把剩下的整数升序排序，输出列表
-
 list = ['asd',123,14]
 for i in list:
     if isinstance(i,str) :
