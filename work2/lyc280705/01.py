@@ -3,7 +3,7 @@ import re
 import pymysql
 from lxml import etree
 from urllib.parse import urljoin
-db = pymysql.connect(host='localhost', port=3306, user='root', password='123456', database='fzu_notice')
+db = pymysql.connect(host='localhost', port=3306, user='root', password='lyc050728', database='fzu_notice')
 cursor = db.cursor()
 cursor.execute("DROP TABLE IF EXISTS notice;")
 create_table_sql = """
@@ -15,7 +15,7 @@ create_table_sql = """
         section VARCHAR(255),
         info_url VARCHAR(255),
         attach_url VARCHAR(255),
-        attach_name VARCHAR(255),
+        attach_name TEXT,
         attach_times INT(11),
         PRIMARY KEY (id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -47,17 +47,19 @@ while page<=5:
                 attach_times=""
                 if detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/@href'):
                     attach_url=start_url+detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/@href')[0]
-                    attach_name=detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/text()')
+                    attach_name=detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/text()')[0]
                     wbnewsid=detail_tree.xpath('//div[@class="xl_main"]/ul/li/span/@id')
                     owner=detail_tree.xpath('/html/head/script[5]')
                     attach_url_get=requests.get(url='https://jwch.fzu.edu.cn/system/resource/code/news/click/clicktimes.jsp?wbnewsid='+ re.findall(r'\d+', wbnewsid[0])[0]+ '&owner='+re.findall(r'\d+', owner[0].text)[2]+'&type=wbnewsfile&randomid=nattach', headers=headers).text
                     attach_times=re.findall(r'\d+', attach_url_get)[0]
                     print(attach_url,attach_name,attach_times)
-                    sql1 ="INSERT INTO notice (attach_url, attach_name, attach_times) VALUES (%s, %s, %s)"
-                    cursor.execute(sql1,(str(attach_url), str(attach_name), str(attach_times)))
-                sql2 ="INSERT INTO notice (page_text, time, title, section, info_url) VALUES (%s,%s, %s, %s, %s)"
-                cursor.execute(sql2,(page_text,str(time), str(title), str(section), str(info_url)))
-                db.commit()
+                    sql1 ="INSERT INTO notice (page_text, time, title, section, info_url,attach_url, attach_name, attach_times) VALUES (%s, %s, %s,%s,%s, %s, %s, %s)"
+                    cursor.execute(sql1,(page_text,str(time), str(title), str(section), str(info_url),str(attach_url), str(attach_name), attach_times))
+                    db.commit()
+                else:
+                    sql2 ="INSERT INTO notice (page_text, time, title, section, info_url) VALUES (%s,%s, %s, %s, %s)"
+                    cursor.execute(sql2,(page_text,str(time), str(title), str(section), str(info_url)))
+                    db.commit()
             page+=1
         elif page==2:
             page_text = requests.get(url=start_url+'/'+next_url, headers=headers).text.encode(encoding="ISO-8859-1")
@@ -68,23 +70,25 @@ while page<=5:
                 time=li.xpath('./span//text()')[0]
                 title=li.xpath('./a/text()')[0]
                 section=li.xpath('./text()')[1]
-                info_url=[urljoin('https://jwch.fzu.edu.cn',li.xpath('./a/@href')[0])]
+                info_url=[urljoin('https://jwch.fzu.edu.cn',li.xpath('./a/@href')[0])][0]
                 print(time,title,section,info_url,page)
-                detail_page_text=requests.get(url=info_url[0],headers=headers).text.encode(encoding="ISO-8859-1")
+                detail_page_text=requests.get(url=info_url,headers=headers).text.encode(encoding="ISO-8859-1")
                 detail_tree=etree.HTML(detail_page_text,parser=parser)
                 if detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/@href'):
                     attach_url=start_url+detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/@href')[0]
-                    attach_name=detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/text()')
+                    attach_name=detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/text()')[0]
                     wbnewsid=detail_tree.xpath('//div[@class="xl_main"]/ul/li/span/@id')
                     owner=detail_tree.xpath('/html/head/script[5]')
                     attach_url_get=requests.get(url='https://jwch.fzu.edu.cn/system/resource/code/news/click/clicktimes.jsp?wbnewsid='+ re.findall(r'\d+', wbnewsid[0])[0]+ '&owner='+re.findall(r'\d+', owner[0].text)[2]+'&type=wbnewsfile&randomid=nattach', headers=headers).text
                     attach_times=re.findall(r'\d+', attach_url_get)[0]
                     print(attach_url,attach_name,attach_times)
-                    sql1 ="INSERT INTO notice (attach_url, attach_name, attach_times) VALUES (%s, %s, %s)"
-                    cursor.execute(sql1,(str(attach_url), str(attach_name), str(attach_times)))
-                sql2 ="INSERT INTO notice (page_text, time, title, section, info_url) VALUES (%s,%s, %s, %s, %s)"
-                cursor.execute(sql2,(page_text,str(time), str(title), str(section), str(info_url)))
-                db.commit()
+                    sql1 ="INSERT INTO notice (page_text, time, title, section, info_url,attach_url, attach_name, attach_times) VALUES (%s, %s, %s,%s,%s, %s, %s, %s)"
+                    cursor.execute(sql1,(page_text,str(time), str(title), str(section), str(info_url),str(attach_url), str(attach_name), attach_times))
+                    db.commit()
+                else:
+                    sql2 ="INSERT INTO notice (page_text, time, title, section, info_url) VALUES (%s,%s, %s, %s, %s)"
+                    cursor.execute(sql2,(page_text,str(time), str(title), str(section), str(info_url)))
+                    db.commit()
             page+=1
         else:
             page_text = requests.get(url=start_url+'/jxtz/'+next_url, headers=headers).text.encode(encoding="ISO-8859-1")
@@ -95,9 +99,9 @@ while page<=5:
                 time=li.xpath('./span//text()')[0]
                 title=li.xpath('./a/text()')[0]
                 section=li.xpath('./text()')[1]
-                info_url=[urljoin('https://jwch.fzu.edu.cn',li.xpath('./a/@href')[0])]
+                info_url=[urljoin('https://jwch.fzu.edu.cn',li.xpath('./a/@href')[0])][0]
                 print(time,title,section,info_url,page)
-                detail_page_text=requests.get(url=info_url[0],headers=headers).content.decode('utf-8')
+                detail_page_text=requests.get(url=info_url,headers=headers).content.decode('utf-8')
                 detail_tree=etree.HTML(detail_page_text,parser=parser)
                 if detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/@href'):
                     attach_url=start_url+detail_tree.xpath('//div[@class="xl_main"]/ul/li/a/@href')[0]
@@ -107,10 +111,12 @@ while page<=5:
                     attach_url_get=requests.get(url='https://jwch.fzu.edu.cn/system/resource/code/news/click/clicktimes.jsp?wbnewsid='+ re.findall(r'\d+', wbnewsid[0])[0]+ '&owner='+re.findall(r'\d+', owner[0].text)[2]+'&type=wbnewsfile&randomid=nattach', headers=headers).text
                     attach_times=re.findall(r'\d+', attach_url_get)[0]
                     print(attach_url,attach_name,attach_times)
-                    sql1 ="INSERT INTO notice (attach_url, attach_name, attach_times) VALUES (%s, %s, %s)"
-                    cursor.execute(sql1,(str(attach_url), str(attach_name), str(attach_times)))
-                sql2 ="INSERT INTO notice (page_text, time, title, section, info_url) VALUES (%s,%s, %s, %s, %s)"
-                cursor.execute(sql2,(page_text,str(time), str(title), str(section), str(info_url)))
-                db.commit()
+                    sql1 ="INSERT INTO notice (page_text, time, title, section, info_url,attach_url, attach_name, attach_times) VALUES (%s, %s, %s,%s,%s, %s, %s, %s)"
+                    cursor.execute(sql1,(page_text,str(time), str(title), str(section), str(info_url),str(attach_url), str(attach_name), attach_times))
+                    db.commit()
+                else:
+                    sql2 ="INSERT INTO notice (page_text, time, title, section, info_url) VALUES (%s,%s, %s, %s, %s)"
+                    cursor.execute(sql2,(page_text,str(time), str(title), str(section), str(info_url)))
+                    db.commit()
             page+=1
 db.close()
