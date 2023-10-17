@@ -11,11 +11,25 @@ if __name__ == "__main__":
                          database='webwork')
     cursor = db.cursor()
 
+    cursor.execute("DROP TABLE IF EXISTS ANNEX")
+    sql_annex = """CREATE TABLE ANNEX(
+                NAME VARCHAR(100) NOT NULL,
+                ID TEXT NOT NULL,
+                TIME INT NOT NULL)"""
+    cursor.execute(sql_annex)
+
+    cursor.execute("DROP TABLE IF EXISTS NOTICE")
+    sql_notice = """CREATE TABLE NOTICE(
+                    TITLE TEXT NOT NULL,
+                    ID TEXT NOT NULL,
+                    ER TEXT NOT NULL,
+                    DATE VARCHAR(15) NOT NULL)"""
+    cursor.execute(sql_notice)
+
     url_0 = "https://jwch.fzu.edu.cn"
     # 通知首页
     url_1 = "https://jwch.fzu.edu.cn/jxtz.htm"
-    # 附件url
-    url_annex = "https://jwch.fzu.edu.cn/system/resource/code/news/click/clicktimes.jsp?wbnewsid=13053671&owner=1744984858&type=wbnewsfile&randomid=nattach"
+
     header = {
         "User - Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60"
     }
@@ -73,9 +87,11 @@ if __name__ == "__main__":
                 for item_li in list_li:
                     annex_name = item_li.a.string  # 附件名称
                     annex_id = url_0+item_li.a["href"]  # 附件链接
-                    annex_time = requests.get(url_annex).json().get("wbshowtimes")  # 附件下载次数
 
+                    url_annex = "https://jwch.fzu.edu.cn/system/resource/code/news/click/clicktimes.jsp?wbnewsid=" + item_li.span["id"][7:] + "&owner=1744984858&type=wbnewsfile&randomid=nattach"
+                    annex_time = requests.get(url_annex).json()["wbshowtimes"]  # 附件下载次数
                     # print("名称:", annex_name, " 链接:", annex_id," 下载次数:",annex_time)
+
                     # 在表ANNEX中插入数据 NAME,ID,TIME
                     ins_annex = "INSERT INTO `ANNEX` (`NAME`, `ID`, `TIME`) VALUES(%s, %s, %s);"
                     cursor.execute(ins_annex, (annex_name, annex_id, annex_time))
