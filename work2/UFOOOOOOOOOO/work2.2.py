@@ -37,7 +37,7 @@ def database(year, category, title, detail):
     category_str = str(category)
     title_str = str(title)
     detail_str = str(detail)
-    sql = f"INSERT INTO history_today (year, category, title, detail) VALUES ('{year_str}', '{category_str}', '{title_str}', '{detail_str}');"
+    sql = f"INSERT INTO baidu_history (year, category, title, detail) VALUES ('{year_str}', '{category_str}', '{title_str}', '{detail_str}');"
     cursor.execute(sql)
     conn.commit()
     cursor.close()
@@ -71,7 +71,7 @@ for i in range(0, 12):
             s1_category = re.sub(r'\s', '', category)
             title = info.get("title")
             s1_title = re.sub(r'<.*?>', '', title)
-            s2_title = re.sub(r'\s', '', s1_title)
+            s2_title = re.sub(r'\s|\'|<a[^>]*>|href="[^"]*"', '', s1_title)
             content = info.get("desc")
             s1_content = re.sub(r'<.*?>', '', content)
             s2_content = re.sub(r'\s|\'', '', s1_content)
