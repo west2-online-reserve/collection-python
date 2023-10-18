@@ -1,28 +1,28 @@
 class goods:
-    __xuhao=0
+    __number=0
     __name=''
     __price=0
-    __zong=0
-    __sheng=0
-    def __init__(self,x,n,p,z,s):
-        self.__xuhao=x
+    __gross=0
+    __surplus=0
+    def __init__(self,num,n,p,g,s):
+        self.__number=num
         self.__name=n
         self.__price=p
-        self.__zong=z
-        self.__sheng=s
+        self.__gross=g
+        self.__surplus=s
     def display(self):
-        print('商品序号:%d 商品名:%s 单价：%d 总数量：%d 剩余数量:%d'%(self.__xuhao,self.__name,self.__price,self.__zong,self.__sheng))
+        print('商品序号:%d 商品名:%s 单价：%d 总数量：%d 剩余数量:%d'%(self.__number,self.__name,self.__price,self.__gross,self.__surplus))
     def income(self):
         m=0
-        m=self.__price*(self.__zong-self.__sheng)
+        m=self.__price*(self.__gross-self.__surplus)
         print('已售出商品价值：%d'%m)
-    def setdate(self,x,n,p,z,s):
-        self.__xuhao=x
+    def setdate(self,num,n,p,g,s):
+        self.__xuhao=num
         self.__name=n
         self.__price=p
-        self.__zong=z
-        self.__sheng=s
-        print('修改后的商品信息为：商品序号:%d 商品名:%s 单价：%d 总数量：%d 剩余数量:%d' %(self.__xuhao,self.__name,self.__price,self.__zong,self.__sheng))
+        self.__gross=g
+        self.__surplus=s
+        print('修改后的商品信息为：商品序号:%d 商品名:%s 单价：%d 总数量：%d 剩余数量:%d' %(self.__number,self.__name,self.__price,self.__gross,self.__surplus))
 x=goods(12,'玩具',15,100,20)
 x.display()
 x.income()
