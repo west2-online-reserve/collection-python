@@ -208,4 +208,4 @@ def delete_tasks():
     return jsonify({'message': 'deleted'}), 200
     
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
