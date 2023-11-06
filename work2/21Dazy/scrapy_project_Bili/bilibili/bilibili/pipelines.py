@@ -9,21 +9,26 @@ from itemadapter import ItemAdapter
 import pymysql
 
 
+    
+    
 class BilibiliPipeline_root(object):
     fp=None
+    
     def open_spider(self,spider):
         print("管道一开始存储")
-        self.fp=open("./bilibili_1.txt",'w+',encoding='utf_8')
+        self.fp=open("./bilibili_test.txt",'w+',encoding='utf_8')
     def process_item(self, item, spider):
+       
         mid=item['mid'].encode('utf-8').decode('utf-8')
         uname=item['uname'].encode('utf-8').decode('utf-8')
         content=item['content'].encode('utf-8').decode('utf-8')
         likes=str(item['com_likes'])
         time=item['time'].encode('utf-8').decode('utf-8')
-       
+    
         self.fp.write(mid+'  ---  '+uname+'\n'+content+'\n'+'点赞数：'+likes+"\n发布时间:"+time)
         self.fp.write("\n---------------------------------------------------------\n")    
         return item
+       
     def close_spider(self,spider):
         self.fp.close()
         print("管道一结束存储")
