@@ -79,7 +79,7 @@ if __name__ == '__main__':
     cur=db.cursor()
     insert_sql="""INSERT INTO NOTICE(AUTHOR,TITLE,TIME,URL) VALUES(%s,%s,%s,%s);"""
     for i in range(0,100):
-        cur.execute(insert_sql,(author_list[i],time_list[i],time_list[i],notice_url_list[i]))
+        cur.execute(insert_sql,(author_list[i],title_list[i],time_list[i],notice_url_list[i]))
     db.commit()
     files_list=[]
     for i in range(0,100):
