@@ -1,0 +1,20 @@
+爬取百度百科历史上的今天 https://baike.baidu.com/calendar/
+
+要求:
+
+获取一年内每天的历史上的今天发生了什么，包括年份，事件类型(birth、death等)，标题，简要内容
+上述内容一律要去除回车、括号等无用符号
+把爬取到的数据存入数据库中
+
+use `spider`;
+
+drop table if exists `baidu_calenaer`;
+
+create table `baidu_calenaer`(
+	`project_id` int unsigned auto_increment comment `编号`,
+	`year` varchar(50) not null comment `年份`,
+	`type` varchar(50) not null comment `类型`,
+	`title` varchar(1000) not null comment `标题`,
+	`desc` varchar(1000) not null comment `简要内容`,
+	primary key(`project_id`)
+	) engine = innodb comment='西二Q2';

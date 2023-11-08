@@ -30,7 +30,7 @@
 
 4. xpath教程 https://www.runoob.com/xpath/xpath-syntax.html
 
-5. selenium https://blog.csdn.net/IT_LanTian/article/details/122986725
+5. selenium https://blog.csdn.net/IT_LanTian/article/details/122986725 以下是部分最新教程：https://blog.csdn.net/stitchD/article/details/123818886 、https://www.selenium.dev/documentation/
 
 6. mysql下载安装 https://blog.csdn.net/weixin_63294643/article/details/127176401 (可以下载Navicat for MySQL获取可视化页面)
 
