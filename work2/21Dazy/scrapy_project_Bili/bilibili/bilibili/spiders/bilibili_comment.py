@@ -43,7 +43,10 @@ class BilibiliCommentSpider(scrapy.Spider):
     name = "bilibili_comment"
     flag=1
    # allowed_domains = ["https://www.bilibili.com/video/BV1Yh411o7Sz"]
-    start_urls = ["https://www.bilibili.com/video/BV1Sa4y1D7bR","https://api.bilibili.com/x/v2/reply/wbi/main?oid=663059358&type=1&mode=3&pagination_str=%7B%22offset%22:%22%22%7D&plat=1&seek_rpid=&web_location=1315875&w_rid=e5b0c4eb22452e468bfd29ab2b86dacd&wts=1699237424"]#一个是视频页url，一个是评论内容url
+    start_urls = ["https://www.bilibili.com/video/BV1iz4y1N7L9","https://api.bilibili.com/x/v2/reply/wbi/main?oid=577899221&type=1&mode=3&pagination_str=%7B%22offset%22:%22%22%7D&plat=1&seek_rpid=&web_location=1315875&w_rid=22859eb28c87cbbfdcb70f2d7cccbc9f&wts=1699458865"]#一个是视频页url，一个是评论内容url
+    # def get_oid(bv_id):#将视频的bv号转化为oid
+    # base_url="https://www.bilibili.com/video/"
+    # bv_url=base_url+bv_id
     oid=None
     son_reply_url_BASE='https://api.bilibili.com/x/v2/reply/reply?oid={}&type=1&root={}&ps=10&pn={}&web_location:333.788'#用于迭代子评论url
     def start_requests(self):

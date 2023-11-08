@@ -71,7 +71,7 @@ if __name__=="__main__":
         cur.execute(create_table)
         cur.execute(create_fujian)
     except:
-        print("该数据表已经存在,将为您更新至最新")
+        print("该数据表已经存在,将为您更新至最新\n")
         cur.execute(drop_table)
         cur.execute(drop_fujian)
         cur.execute(create_table)
@@ -81,9 +81,9 @@ if __name__=="__main__":
                 page_notice_list=response_html.xpath(detail_set_xpath)#一个页面所有通知的html标签列表
                 nums_page_notice=len(page_notice_list)#一个页面的通知数
                 print("当前页面通知数",nums_page_notice)
-                print('目前还需要爬取数量',notice_num_need)
+                
                 if len(page_notice_list)<=notice_num_need:
-                    notice_num_need-=nums_page_notice
+                    
                     for one_notice in page_notice_list:#一次执行一次数据库插入
                         if re.match(r'.*?(info/\d+/\d+.htm).*?',one_notice.xpath("./a/@href")[0])  :
                             notice_link=notice_base_url+'/'+(re.match(r'.*?(info/\d+/\d+.htm).*?',one_notice.xpath("./a/@href")[0])).group(1)
@@ -98,9 +98,13 @@ if __name__=="__main__":
                             n+=1
                             if paqu_fujian(notice_link):
                                 cur.executemany(insert_execute_fujian,paqu_fujian(notice_link))
-                            db.commit()      
+                                
+                            db.commit()  
+                    notice_num_need-=n
+                        
+                             
                 else:
-                    notice_num_need-=nums_page_notice
+                    
                     for one_notice in page_notice_list[0:notice_num_need]:#一次执行一次数据表插入
                         if re.match(r'.*?(info/\d+/\d+.htm).*?',one_notice.xpath("./a/@href")[0]):
                             notice_link=notice_base_url+'/'+re.match(r'.*?(info/\d+/\d+.htm).*?',one_notice.xpath("./a/@href")[0]).group(1)
@@ -116,7 +120,9 @@ if __name__=="__main__":
                             if paqu_fujian(notice_link):
                                 cur.executemany(insert_execute_fujian,paqu_fujian(notice_link))
                             db.commit()
+                    notice_num_need-=n
                 print("此轮插入数量"+str(n))
+                print('目前还需要爬取数量',notice_num_need,"\n----------------------------------\n")
                 page_total-=1
                 page_url=base_url+str(page_total)+'.htm'
                 response_page=requests.get(url=page_url,headers=head).content.decode('utf-8')
@@ -125,13 +131,14 @@ if __name__=="__main__":
         cur.close()
         db.close()
     else:
-        print("正在为您收集数据")
+        print("正在为您收集数据\n")
         while(notice_num_need>0):
+                n=0
                 page_notice_list=response_html.xpath(detail_set_xpath)#一个页面所有通知的html标签列表
                 nums_page_notice=len(page_notice_list)#一个页面的通知数
                 print(nums_page_notice)
                 if len(page_notice_list)<=notice_num_need:
-                    notice_num_need-=nums_page_notice
+                    
                     for one_notice in page_notice_list:#一次执行一次数据库插入
                         if re.match(r'.*?(info/\d+/\d+.htm).*?',one_notice.xpath("./a/@href")[0]):
                             notice_link=notice_base_url+'/'+re.match(r'.*?(info/\d+/\d+.htm).*?',one_notice.xpath("./a/@href")[0]).group(1)
@@ -143,9 +150,12 @@ if __name__=="__main__":
                             insert_execute_notice='''insert into fzu_notice(title,time,writer,link) values('%s','%s','%s','%s')'''%(notice_title,notice_time,notice_writer,notice_link)
                             insert_execute_fujian='''insert into fzu_fujian(chuchu,title,downlink,times) values("%s","%s","%s",%s)'''
                             cur.execute(insert_execute_notice)
+                            n+=1
                             if paqu_fujian(notice_link):
                                 cur.executemany(insert_execute_fujian,paqu_fujian(notice_link))
                             db.commit()
+                    notice_num_need-=n
+                
                     
                 else:
                     for one_notice in page_notice_list[0:notice_num_need]:#一次执行一次数据库插入
@@ -158,10 +168,14 @@ if __name__=="__main__":
                             notice_time=notice_html.xpath(time_xpath)[0]
                             insert_execute_notice='''insert into fzu_notice(title,time,writer,link) values('%s','%s','%s','%s')'''%(notice_title,notice_time,notice_writer,notice_link)
                             insert_execute_fujian='''insert into fzu_fujian(chuchu,title,downlink,times) values("%s","%s","%s",%s)'''
-                            cur.execute(insert_execute_notice)   
+                            cur.execute(insert_execute_notice) 
+                            n+=1  
                             if paqu_fujian(notice_link):
                                 cur.executemany(insert_execute_fujian,paqu_fujian(notice_link))
                             db.commit()
+                    notice_num_need-=n
+                print("此轮插入数量"+str(n))
+                print('目前还需要爬取数量',notice_num_need,"\n----------------------------------\n")
                 page_total-=1
                 page_url=base_url+str(page_total)+'.htm'
                 response_page=requests.get(url=page_url,headers=head).content.decode('utf-8')

@@ -8,7 +8,6 @@
 from itemadapter import ItemAdapter
 import pymysql
 
-
     
     
 class BilibiliPipeline_root(object):
