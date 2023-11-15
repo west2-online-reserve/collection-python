@@ -1,48 +1,44 @@
-import requests
 import json
-import time
+from jsonpath import jsonpath
+import requests
 import re
-
-
-def get_Month():
-    lt = time.localtime(time.time())
-    lt = lt[1]
-    if (lt > 9):
-        return str(lt)
-    else:  # 月份小于10前面加个0，保证格式
-        return "0" + str(lt)
-
-
-def get_Day():
-    return str(time.localtime()[2])
-
-
-def get_ts():  # 获取时间戳
-    return time.time()
-
-
-def returnApi():
-    Api_list = []
-    month = get_Month()
-    day = get_Day()
-    ts = get_ts()
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36",
-    }
-    url = "https://baike.baidu.com/cms/home/eventsOnHistory/" + month + ".json?_=" + str(ts)
-    html = requests.get(url=url, headers=headers).json()
-    for i in range(len(html[month][month + day])):  # 这个是上面url月份里具体的天数
-        year = html[month][month + day][i]['year']  # 获取事件的年
-        title = html[month][month + day][i]['title']  # 获取事件的标题
-        link = html[month][month + day][i]['link']  # 获取事件的详情链接
-        type = html[month][month + day][i]['type']  # 获取事件的类型(birthday,death,event)
-        desc = html[month][month + day][i]['desc']  # 获取事件的详情
-        title = re.sub(r'<.*?>', '', title)  # 去掉标题里一堆的超链接
-        desc = re.sub(r'<.*?>', '', desc) + '...'  # 去掉详情里一堆的超链接
-        The_Api = {"year": year, "title": title, "link": link, "desc": desc, "type": type}  # 组成一个字典
-        Api_list.append(The_Api)  # 列表套字典
-    return json.dumps(Api_list)  # 编码成json数据，好调用
-
+import pymysql
 
 if __name__ == '__main__':
-    returnApi()
+    # 创建连接
+    try:
+        connection = pymysql.connect(host='127.0.0.1', user='root', password='DHcyz20040310', db='dbtest')
+
+        # 创建游标
+        cursor = connection.cursor()
+        url = 'https://baike.baidu.com/cms/home/eventsOnHistory/11.json?_=' + str(1699783815006)
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.289 Safari/537.36'
+        }
+
+        response = requests.get(url=url, headers=headers)
+
+        with open('data.json', 'w', encoding='utf-8') as file:
+            json.dump(response.json(), file, ensure_ascii=False)
+
+        with open('data.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        value = data["11"]
+        value1 = value["1130"]
+        for key in value1:
+            name = jsonpath(key, '$..title')
+            year = jsonpath(key, '$..year')
+            desc = jsonpath(key, '$..desc')
+            year = ''.join(year)
+            print(year)
+
+            for i in desc:
+                s = re.sub('<.*?>', "", i)
+            cg = (year, s)
+            query = 'insert into student(year,thing) value (%s,%s)'
+            cursor.execute(query, cg)
+        connection.commit()
+        connection.close()
+    except pymysql.Error as e:
+        print(str(e))
