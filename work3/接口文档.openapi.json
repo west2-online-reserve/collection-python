@@ -1,0 +1,693 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "个人项目",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "to-do"
+    }
+  ],
+  "paths": {
+    "/to-do/api/v1.0/tasks": {
+      "get": {
+        "summary": "获取tasks",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "获取tasks,tasks中包含id,title,content,state,time,ddl六个参数",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "tasks": [
+                        [
+                          4,
+                          "test",
+                          "aaa",
+                          "Done",
+                          "Fri, 01 Jan 1999 00:00:01 GMT",
+                          "Thu, 02 Jan 2020 00:00:01 GMT"
+                        ],
+                        [
+                          5,
+                          "test",
+                          "aaa",
+                          "Done",
+                          "Fri, 01 Jan 1999 00:00:01 GMT",
+                          "Thu, 02 Jan 2020 00:00:01 GMT"
+                        ],
+                        [
+                          6,
+                          "test",
+                          "aaa",
+                          "Done",
+                          "Fri, 01 Jan 1999 00:00:01 GMT",
+                          "Thu, 02 Jan 2020 00:00:01 GMT"
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120332900-run",
+        "security": []
+      },
+      "post": {
+        "summary": "添加task",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "添加task,需以json格式发送title,content,state,time,ddl五个数据",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "只能为Done或Not started"
+                  },
+                  "time": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "ddl": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "x-apifox-orders": [
+                  "title",
+                  "content",
+                  "state",
+                  "time",
+                  "ddl"
+                ],
+                "required": [
+                  "title",
+                  "content",
+                  "state",
+                  "time",
+                  "ddl"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "task": {
+                        "content": "aaa",
+                        "ddl": "2020-01-02 00:00:01",
+                        "state": "Done",
+                        "time": "1999-01-01 00:00:01",
+                        "title": "test"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120333864-run",
+        "security": []
+      },
+      "delete": {
+        "summary": "删除所有tasks",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "删除所有tasks",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "message": "deleted"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120334482-run",
+        "security": []
+      }
+    },
+    "/to-do/api/v1.0/tasks/done": {
+      "get": {
+        "summary": "获取所有已完成tasks",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "获取所有已完成tasks,返回tasks",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tasks": {
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "oneOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "tasks"
+                  ],
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": [
+                    "tasks"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "tasks": [
+                        [
+                          3,
+                          "a12",
+                          "aaa",
+                          "Done",
+                          "Sat, 01 Jan 2011 00:00:01 GMT",
+                          "Thu, 02 Jan 2020 00:00:01 GMT"
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120334741-run",
+        "security": []
+      },
+      "patch": {
+        "summary": "修改所有state为Done的tasks为Not started",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "state": {
+                    "type": "string",
+                    "description": "只能为Not started"
+                  }
+                },
+                "x-apifox-orders": [
+                  "state"
+                ],
+                "required": [
+                  "state"
+                ],
+                "x-apifox-ignore-properties": []
+              },
+              "example": {
+                "state": "Not started"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "task": {
+                        "state": "Not started"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120335588-run",
+        "security": []
+      },
+      "delete": {
+        "summary": "删除所有state为Done的tasks",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "删除成功",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120336367-run",
+        "security": []
+      }
+    },
+    "/to-do/api/v1.0/tasks/not-started": {
+      "get": {
+        "summary": "获取所有未完成tasks",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "tasks": [
+                        [
+                          4,
+                          "test",
+                          "aaa",
+                          "Not started",
+                          "Fri, 01 Jan 1999 00:00:01 GMT",
+                          "Thu, 02 Jan 2020 00:00:01 GMT"
+                        ],
+                        [
+                          5,
+                          "test",
+                          "aaa",
+                          "Not started",
+                          "Fri, 01 Jan 1999 00:00:01 GMT",
+                          "Thu, 02 Jan 2020 00:00:01 GMT"
+                        ],
+                        [
+                          6,
+                          "test",
+                          "aaa",
+                          "Not started",
+                          "Fri, 01 Jan 1999 00:00:01 GMT",
+                          "Thu, 02 Jan 2020 00:00:01 GMT"
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120337975-run",
+        "security": []
+      },
+      "patch": {
+        "summary": "修改所有state为Not started的tasks为Done",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "state": {
+                    "type": "string",
+                    "description": "必须为Done"
+                  }
+                },
+                "x-apifox-orders": [
+                  "state"
+                ],
+                "required": [
+                  "state"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-orders": [],
+                  "x-apifox-ignore-properties": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "task": {
+                        "state": "Done"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120338001-run",
+        "security": []
+      },
+      "delete": {
+        "summary": "删除所有state为Not started的tasks",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "删除成功",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120339223-run",
+        "security": []
+      }
+    },
+    "/to-do/api/v1.0/tasks/{id}": {
+      "get": {
+        "summary": "获取特定id的task",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "content": "aaa",
+                      "ddl": "Thu, 02 Jan 2020 00:00:01 GMT",
+                      "id": 4,
+                      "state": "Done",
+                      "time": "Fri, 01 Jan 1999 00:00:01 GMT",
+                      "title": "test"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120339347-run",
+        "security": []
+      },
+      "patch": {
+        "summary": "修改特定id的task的state",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "state": {
+                    "type": "string",
+                    "description": "必须为Done或Not started"
+                  }
+                },
+                "x-apifox-orders": [
+                  "state"
+                ],
+                "required": [
+                  "state"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "task": {
+                        "state": "Done"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120339460-run",
+        "security": []
+      },
+      "delete": {
+        "summary": "删除特定id的task",
+        "x-apifox-folder": "to-do",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "to-do"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "删除成功",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3419818/apis/api-120339866-run",
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:5000",
+      "description": "正式环境"
+    },
+    {
+      "url": "http://127.0.0.1:5000",
+      "description": "测试环境"
+    }
+  ]
+}
