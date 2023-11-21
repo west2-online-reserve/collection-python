@@ -19,8 +19,6 @@ from pymysql import connect
 def main2(ur):
     """爬取附件"""
 
-    url = ur
-
     response = requests.get(url=ur, headers=headers).content.decode("utf8")
 
     soup = BeautifulSoup(response, "lxml")
@@ -35,7 +33,13 @@ def main2(ur):
             0] + '&type=wbnewsfile&randomid=nattach'
         ui = json.loads(requests.get(url=u, headers=headers).text)
 
-        print(file_href, file_name, ui['wbshowtimes'])
+        sql2 = "insert into files (name,download_num,href) values('%s','%s','%s')" % (file_name, ui['wbshowtimes'], file_href)
+
+        cursor.execute(sql2)
+        con.commit()
+
+
+        # print(file_href, file_name, ui['wbshowtimes'])
 
 
 def main():
@@ -60,13 +64,15 @@ def main():
             href ="https://jwch.fzu.edu.cn/"+ li_list[i].find("a")["href"]
             #获取时间
             time = li_list[i].find("span").string
+            if time==None:
+                time=li_list[i].find("font").string
             #获取通知人
             agency = re.findall(r"【(.*?)】", li_list[i].text)[0]
             #获取标题
             title=li_list[i].find("a")["title"]
             count+=1
 
-            # 如果想要爬取通知详情的附件，提取附件名，附件下载次数，附件链接码，可在此处调用函数：main2(href)
+            main2(href)
 
             #将数据读入数据库
             sql2 = "insert into notices (agency,title,time,href) values('%s','%s','%s','%s')" % (agency,title,time,href)
@@ -100,7 +106,18 @@ if __name__ == "__main__":
         href varchar(128)
     )default charset=utf8
         """
+    #创建爬取附件信息的表
+    sql3 = """
+    create table files(
+        id int not null auto_increment primary key,
+        name varchar(128),
+        download_num varchar(128),
+        href varchar(128)
+    )default charset=utf8
+        """
+
     cursor.execute(sql)
+    cursor.execute(sql3)
 
     #调用爬取通知的函数
     main()
