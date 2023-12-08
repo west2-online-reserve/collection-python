@@ -149,13 +149,10 @@ def search_id(todo_id):
 ####删除一条事项####
 @app.route('/delete/single_completed/<int:todo_id>',methods=['DELETE'])
 def delete_single_completed(todo_id):
-    delete_single=Todo.query.filter_by(id=todo_id)
-    if delete_single==None:
-        return jsonify(code=404,msg='NOT FOUND')
-    else:
-        db.session.delete(delete_single)
-        db.session.commit()
-        return jsonify(code=200,msg='delete single success')
+    delete_single=Todo.query.get_or_404(todo_id)
+    db.session.delete(delete_single)
+    db.session.commit()
+    return jsonify(code=200,msg='delete single success')
 ####删除所有事项####
 @app.route('/delete/all',methods=['DELETE'])
 def delete_all():
