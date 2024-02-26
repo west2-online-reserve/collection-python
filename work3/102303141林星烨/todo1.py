@@ -8,6 +8,7 @@ from datetime import datetime
 
 from sqlalchemy import text
 
+
 ######db.session.commit（）提交数据库的修改（包括增/删/改）###########
 # 创建 Flask 应用
 app = Flask(__name__)
