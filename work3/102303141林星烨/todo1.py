@@ -247,6 +247,7 @@ def delete_all_completed():
 
 
 ####删除所有代办###
+
 @app.route('/delete/all_not_completed', methods=['DELETE'])
 def delete_all_not_completed():
     delete_all = Todo.query.filter_by(completed='false').all()
