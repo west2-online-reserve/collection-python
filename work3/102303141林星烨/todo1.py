@@ -6,8 +6,7 @@ from flask import Flask, request, jsonify, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-from sqlalchemy import text
-
+from sqlalchemy import text, or_
 
 ######db.session.commit（）提交数据库的修改（包括增/删/改）###########
 # 创建 Flask 应用
@@ -49,9 +48,12 @@ def index():
     results = []
     todos = Todo.query.all()
     for todo in todos:
-        results.append(jsonify(title=todo.title, content=todo.content, completed=todo.completed,
-                               created_at=todo.created_at, deadline=todo.deadline))
-        return jsonify(code=200, message='ALL', result=results)
+        results.append([{'title': todo.title,
+                         'content': todo.content,
+                         'completed': todo.completed,
+                         'created_at': todo.created_at,
+                         'deadline': todo.deadline}])
+    return jsonify(code=200, message='ALL', result=results)
 
 
 #####插入一条#####(增)
@@ -61,12 +63,13 @@ def add_todo():
     todo_title = data['title']
     todo_complete = data['completed']
     todo_content = data['content']
+    todo_deadline = data['deadline']
     if todo_complete != 'true':
         todo_complete = 'false'
     else:
         todo_complete = 'true'
     new_todo = Todo(title=todo_title, completed=todo_complete, content=todo_content, created_at=datetime.now(),
-                    deadline=datetime.now())
+                    deadline=todo_deadline)
     db.session.add(new_todo)
     db.session.commit()
     return jsonify(message='success', code=200)
@@ -123,10 +126,10 @@ def update_2_all():
 ####查看 所有已完成####
 @app.route('/search/all/completed', methods=['GET'])
 def search_all_completed():
-    page = request.args.get("page",1,type=int)
-    per_page = request.args.get("per_page",10,type=int)
-    search_all = Todo.query.filter_by(completed='true').all()
-    search_all_true = search_all.args.paginate(page=page,per_page=per_page)
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 10, type=int)
+    search_all = Todo.query.filter_by(completed='true')
+    search_all_true = search_all.paginate(page=page, per_page=per_page)
     result_data = []
     for single in search_all_true.items:
         result_data.append({'id': single.id,
@@ -136,50 +139,52 @@ def search_all_completed():
                             'created_at': single.created_at,
                             'deadline': single.deadline
                             })
-    return jsonify(code=200, msg="success",current_page=search_all_true.page, total_page=search_all_true.pages ,data=result_data)
+    return jsonify(code=200, msg="success", current_page=search_all_true.page, total_page=search_all_true.pages,
+                   data=result_data)
 
 
 ####查看 所有代办####
 @app.route('/search/all/not_completed', methods=['GET'])
 def search_all_not_completed():
-    page = request.args.get("page",1,type=int)
-    per_page = request.args.get("per_page",10,type=int)
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 10, type=int)
 
     search_all = Todo.query.filter_by(completed='false').all()
-    search_all_false = search_all.args.query.paginate(page=page,per_page=per_page)
+    search_all_false = search_all.paginate(page=page, per_page=per_page)
     result_data = []
     for single in search_all_false.items:
         result_data.append({'id': single.id,
                             'title': single.title,
-                            'content':single.content,
+                            'content': single.content,
                             'completed': single.completed,
                             'created_at': single.created_at,
                             'deadline': single.deadline})
-    return jsonify(code=200, msg="success", current_page=search_all_true.page, total_page=search_all_true.pages ,data=result_data)
+    return jsonify(code=200, msg="success", current_page=search_all_false.page, total_page=search_all_false.pages,
+                   data=result_data)
 
 
 ####查看 所有事项####
 @app.route('/search/all', methods=['GET'])
 def search_all():
-    page = request.args.get("page",1,type=int)
-    per_page = request.args.get("per_page",10,type=int)
-    search_all = Todo.query.all()
-    search_all_2 =search_all.query.paginate(page=page,per_page=per_page)
+    page = request.args.get("page", 1, type=int)
+    per_page = request.args.get("per_page", 10, type=int)
+    search_all_2 = Todo.query.paginate(page=page, per_page=per_page)
     result_data = []
-    for single in search_all:
+    for single in search_all_2.items:
         result_data.append({'id': single.id,
                             'title': single.title,
-                            'content':single.content,
+                            'content': single.content,
                             'completed': single.completed,
                             'created_at': single.created_at,
                             'deadline': single.deadline})
-    return jsonify(code=200, msg="success",current_page=search_all_true.page, total_page=search_all_true.pages , data=result_data)
+    return jsonify(code=200, msg="success", current_page=search_all_2.page, total_page=search_all_2.pages,
+                   data=result_data)
 
 
 ####用关键词查询####
 @app.route('/search/by_kw/<kw>', methods=['GET'])
 def search_by_kw(kw):
-    search_kw = Todo.query.filter(text("content ILIKE:kw")).params(kw=f"%{kw}%").all()
+    search_kw = Todo.query.filter(or_(Todo.title.ilike(f"%{kw}%"), Todo.content.ilike(f"%{kw}%")))
 
     if search_kw is None:
         return jsonify(code=404, msg='NOT FOUND')
@@ -188,7 +193,7 @@ def search_by_kw(kw):
         for search_kw_ in search_kw:
             datas.append([{'id': search_kw_.id,
                            'title': search_kw_.title,
-                           'content':search_kw.content,
+                           'content': search_kw_.content,
                            'completed': search_kw_.completed,
                            'created_at': search_kw_.created_at,
                            'deadline': search_kw_.deadline}])
@@ -204,7 +209,7 @@ def search_id(todo_id):
     else:
         data = [{'id': search_single.id,
                  'title': search_single.title,
-                 'content':search_single.content,
+                 'content': search_single.content,
                  'completed': search_single.completed,
                  'created_at': search_single.created_at,
                  'deadline': search_single.deadline}]
